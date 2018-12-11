@@ -16,12 +16,6 @@ public class TestProdCons {
 		int ProdTime = Integer.parseInt(properties.getProperty("ProdTime")); // Temps moyen de production
 		int ConsTime = Integer.parseInt(properties.getProperty("ConsTime")); // Temps moyen de consommation
 		int Mavg = Integer.parseInt(properties.getProperty("Mavg")); // Nb moyen de messages produit par chaque consommateur
-//		System.out.println(nbP);
-//		System.out.println(nbC);
-//		System.out.println(BufSz);
-//		System.out.println(ProdTime);
-//		System.out.println(ConsTime);
-//		System.out.println(Mavg);
 		
 		ProdConsBuffer buffer = new ProdConsBuffer(BufSz);
 		
@@ -32,25 +26,27 @@ public class TestProdCons {
 				if (ComptP<nbP) {
 					Producteur prod = new Producteur(new Message());
 					ComptP++;
+					prod.run(buffer, Mavg);
 				}
 				else if (ComptC<nbC) {
 					Consommateur cons = new Consommateur();
 					ComptC++;
+					cons.run(buffer, Mavg);
 				}
 			}
 			else if (tirage > 0.5) {
 				if (ComptC<nbC) {
 					Consommateur cons = new Consommateur();
 					ComptC++;
+					cons.run(buffer, Mavg);
 				}
 				else if (ComptP<nbP) {
 					Producteur prod = new Producteur(new Message());
 					ComptP++;
+					prod.run(buffer, Mavg);
 				}
 			}
 		}
-		
-		
 		
 	}
 

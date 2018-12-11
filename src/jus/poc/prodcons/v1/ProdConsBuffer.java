@@ -15,24 +15,26 @@ public class ProdConsBuffer implements IProdConsBuffer {
 		/**
 		* put m in the prodcons buffer
 		**/
-		public void put(Message m) throws InterruptedException {
+		public synchronized void put(Message m) throws InterruptedException {
 			while(!(nbElem < buffer.length)) {
 				wait();
 			}
 			buffer[queue] = m;
+			System.out.println(buffer[queue].content);
 			queue = (queue+1)%buffer.length;
 			nbElem++;
 			notifyAll(); // A réflechir
 		}
 		
+		
 		/**
 		* retrieve a message from the prodcons buffer, following a fifo order
 		**/
-		public Message get() throws InterruptedException{
+		public synchronized Message get() throws InterruptedException{
 			while(!(nbElem>0)) {
 				wait();
 			}
-			System.out.println(buffer[tete]);
+			System.out.println(buffer[tete].content);
 			tete = (tete+1)%buffer.length;
 			nbElem--;
 			notifyAll(); // A réflechir
