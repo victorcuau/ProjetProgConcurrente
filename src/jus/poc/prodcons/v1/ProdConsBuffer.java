@@ -1,27 +1,29 @@
 package jus.poc.prodcons.v1;
 
-public class ProdConsBuffer {
+public class ProdConsBuffer implements IProdConsBuffer {
 
-	Message buffer[BufSz];
 	static int tete; // Indique la position du prochain élement à récupérer (FIFO)
 	static int queue; // Indique la position où écrire la prochaine fois (FIFO)
 	static int nbElem; // Indique le nombre de messages actuellement dans le buffer
-	
-	public interface IProdConsBuffer {
+
+	Message buffer[];
 		
+	ProdConsBuffer(int BufSz){
+		buffer = new Message[BufSz];
+	}
+	
 		/**
 		* put m in the prodcons buffer
 		**/
 		public void put(Message m) throws InterruptedException {
-			while(!(nbElem < BufSz)) {
+			while(!(nbElem < buffer.length)) {
 				wait();
 			}
 			buffer[queue] = m;
-			queue = (queue+1)%BufSz;
+			queue = (queue+1)%buffer.length;
 			nbElem++;
 			notifyAll(); // A réflechir
 		}
-		
 		
 		/**
 		* retrieve a message from the prodcons buffer, following a fifo order
@@ -30,10 +32,11 @@ public class ProdConsBuffer {
 			while(!(nbElem>0)) {
 				wait();
 			}
-			printf(buffer[tete]);
-			tete = (tete+1)%BufSz;
+			System.out.println(buffer[tete]);
+			tete = (tete+1)%buffer.length;
 			nbElem--;
 			notifyAll(); // A réflechir
+			return buffer[tete]; // Pas de sens mais besoin d'un return
 		}
 		
 		
@@ -42,8 +45,6 @@ public class ProdConsBuffer {
 		**/
 		public int nmsg() {
 			return nbElem;
-		}
-		
 		}
 	
 }
