@@ -5,11 +5,13 @@ public class Producteur extends Thread {
 	Message ptitmot;
 	ProdConsBuffer buffer;
 	int Mavg;
+	int numId;
 	
-	Producteur(Message m, ProdConsBuffer buffer, int Mavg){
+	Producteur(Message m, ProdConsBuffer buffer, int Mavg, int numId){
 		this.ptitmot = m;
 		this.buffer = buffer;
 		this.Mavg = Mavg;
+		this.numId = numId;
 	}
 
 	public void run(){

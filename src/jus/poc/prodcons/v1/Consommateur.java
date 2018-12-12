@@ -4,8 +4,12 @@ public class Consommateur extends Thread {
 	
 	ProdConsBuffer buffer;
 	int Mavg;
+	int numId;
 	
-	Consommateur(ProdConsBuffer buffer, int Mavg){
+	Consommateur(ProdConsBuffer buffer, int Mavg, int numId){
+		this.buffer = buffer;
+		this.Mavg = Mavg;
+		this.numId = numId;
 	}
 
 	public void run(){

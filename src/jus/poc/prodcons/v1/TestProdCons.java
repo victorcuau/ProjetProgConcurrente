@@ -24,28 +24,32 @@ public class TestProdCons {
 			float tirage = (float)(Math.random());
 			if (tirage < 0.5F) {
 				if (ComptP<nbP) {
-					Producteur prod = new Producteur(new Message(), buffer, Mavg);
 					ComptP++;
+					Producteur prod = new Producteur(new Message(), buffer, Mavg, ComptP);
+					System.out.println("Création du producteur n°" + prod.numId);
 					//prod.run();
 					prod.start();
 				}
 				else if (ComptC<nbC) {
-					Consommateur cons = new Consommateur(buffer, Mavg);
 					ComptC++;
+					Consommateur cons = new Consommateur(buffer, Mavg, ComptC);
+					System.out.println("Création du consommateur n°" + cons.numId);
 					//cons.run();
 					cons.start();
 				}
 			}
 			else if (tirage > 0.5) {
 				if (ComptC<nbC) {
-					Consommateur cons = new Consommateur(buffer, Mavg);
 					ComptC++;
+					Consommateur cons = new Consommateur(buffer, Mavg, ComptC);
+					System.out.println("Création du consommateur n°" + cons.numId);
 					//cons.run();
 					cons.start();
 				}
 				else if (ComptP<nbP) {
-					Producteur prod = new Producteur(new Message(), buffer, Mavg);
 					ComptP++;
+					Producteur prod = new Producteur(new Message(), buffer, Mavg, ComptP);
+					System.out.println("Création du producteur n°" + prod.numId);
 					//prod.run();
 					prod.start();
 				}
