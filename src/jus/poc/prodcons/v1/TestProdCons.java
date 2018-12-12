@@ -25,13 +25,13 @@ public class TestProdCons {
 			if (tirage < 0.5F) {
 				if (ComptP<nbP) {
 					ComptP++;
-					Producteur prod = new Producteur(new Message(), buffer, Mavg, ComptP);
+					Producteur prod = new Producteur(new Message(), buffer, Mavg, ComptP, ProdTime);
 					System.out.println("Création du producteur n°" + prod.numId);
 					prod.start();
 				}
 				else if (ComptC<nbC) {
 					ComptC++;
-					Consommateur cons = new Consommateur(buffer, Mavg, ComptC);
+					Consommateur cons = new Consommateur(buffer, Mavg, ComptC, ConsTime);
 					System.out.println("Création du consommateur n°" + cons.numId);
 					cons.start();
 				}
@@ -39,13 +39,13 @@ public class TestProdCons {
 			else if (tirage > 0.5) {
 				if (ComptC<nbC) {
 					ComptC++;
-					Consommateur cons = new Consommateur(buffer, Mavg, ComptC);
+					Consommateur cons = new Consommateur(buffer, Mavg, ComptC, ConsTime);
 					System.out.println("Création du consommateur n°" + cons.numId);
 					cons.start();
 				}
 				else if (ComptP<nbP) {
 					ComptP++;
-					Producteur prod = new Producteur(new Message(), buffer, Mavg, ComptP);
+					Producteur prod = new Producteur(new Message(), buffer, Mavg, ComptP, ProdTime);
 					System.out.println("Création du producteur n°" + prod.numId);
 					prod.start();
 				}
