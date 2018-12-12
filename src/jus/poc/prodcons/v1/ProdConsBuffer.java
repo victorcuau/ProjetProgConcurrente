@@ -20,6 +20,7 @@ public class ProdConsBuffer implements IProdConsBuffer {
 				wait();
 			}
 			buffer[queue] = m;
+			System.out.print("Production : ");
 			System.out.println(buffer[queue].content);
 			queue = (queue+1)%buffer.length;
 			nbElem++;
@@ -34,6 +35,7 @@ public class ProdConsBuffer implements IProdConsBuffer {
 			while(!(nbElem>0)) {
 				wait();
 			}
+			System.out.print("Consommation : ");
 			System.out.println(buffer[tete].content);
 			tete = (tete+1)%buffer.length;
 			nbElem--;

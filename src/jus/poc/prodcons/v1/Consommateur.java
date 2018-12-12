@@ -2,17 +2,21 @@ package jus.poc.prodcons.v1;
 
 public class Consommateur extends Thread {
 	
-	Consommateur(){
+	ProdConsBuffer buffer;
+	int Mavg;
+	
+	Consommateur(ProdConsBuffer buffer, int Mavg){
 	}
 
-	public void run(ProdConsBuffer buffer, int Mavg){
+	public void run(){
 		try {
-		while(true) {
-			buffer.get();
+			for (int i = 0 ; i < (int)(Math.random()*Mavg*2) ; i++) {
+				buffer.get();
+			}
+			
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
-	} catch (InterruptedException e) {
-		e.printStackTrace();
-}
 
 	}
 	

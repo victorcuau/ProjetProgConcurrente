@@ -22,34 +22,39 @@ public class TestProdCons {
 		int ComptP = 0, ComptC = 0; // Nb de producteurs et consommateurs effectivement crées
 		for (int i = 0 ; i < nbP+nbC ; i++) {
 			float tirage = (float)(Math.random());
-			if (tirage < 0.5) {
+			if (tirage < 0.5F) {
 				if (ComptP<nbP) {
-					Producteur prod = new Producteur(new Message());
+					Producteur prod = new Producteur(new Message(), buffer, Mavg);
 					ComptP++;
-					prod.run(buffer, Mavg);
+					//prod.run();
+					prod.start();
 				}
 				else if (ComptC<nbC) {
-					Consommateur cons = new Consommateur();
+					Consommateur cons = new Consommateur(buffer, Mavg);
 					ComptC++;
-					cons.run(buffer, Mavg);
+					//cons.run();
+					cons.start();
 				}
 			}
 			else if (tirage > 0.5) {
 				if (ComptC<nbC) {
-					Consommateur cons = new Consommateur();
+					Consommateur cons = new Consommateur(buffer, Mavg);
 					ComptC++;
-					cons.run(buffer, Mavg);
+					//cons.run();
+					cons.start();
 				}
 				else if (ComptP<nbP) {
-					Producteur prod = new Producteur(new Message());
+					Producteur prod = new Producteur(new Message(), buffer, Mavg);
 					ComptP++;
-					prod.run(buffer, Mavg);
+					//prod.run();
+					prod.start();
 				}
 			}
 		}
 		
 	}
 
+	
 	public static void main(String[] args) {
 		TestProdCons test = new TestProdCons();
 		
