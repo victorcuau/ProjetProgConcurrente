@@ -1,5 +1,7 @@
 package jus.poc.prodcons.v1;
 
+import java.awt.Color;
+
 public class ProdConsBuffer implements IProdConsBuffer {
 
 	static int tete; // Indique la position du prochain élement à récupérer (FIFO)
@@ -20,8 +22,7 @@ public class ProdConsBuffer implements IProdConsBuffer {
 				wait();
 			}
 			buffer[queue] = m;
-			System.out.print("Production : ");
-			System.out.println(buffer[queue].content);
+			System.out.println("Production : " + buffer[queue].content);
 			queue = (queue+1)%buffer.length;
 			nbElem++;
 			notifyAll(); // A réflechir
@@ -35,8 +36,7 @@ public class ProdConsBuffer implements IProdConsBuffer {
 			while(!(nbElem>0)) {
 				wait();
 			}
-			System.out.print("Consommation : ");
-			System.out.println(buffer[tete].content);
+			System.out.println("Consommation : " + buffer[tete].content);
 			tete = (tete+1)%buffer.length;
 			nbElem--;
 			notifyAll(); // A réflechir

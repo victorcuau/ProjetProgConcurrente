@@ -8,7 +8,7 @@ public class TestProdCons {
 
 	public static void start() throws InvalidPropertiesFormatException, IOException {
 
-		Properties properties = new Properties();
+		Properties properties = new Properties(); // Importation des propriétés depuis le .xml
 		properties.loadFromXML(TestProdCons.class.getClassLoader().getResourceAsStream("options.xml"));
 		int nbP = Integer.parseInt(properties.getProperty("nbP")); // Nb de thread producteurs
 		int nbC = Integer.parseInt(properties.getProperty("nbC")); // Nb de thread consommateurs
@@ -27,14 +27,12 @@ public class TestProdCons {
 					ComptP++;
 					Producteur prod = new Producteur(new Message(), buffer, Mavg, ComptP);
 					System.out.println("Création du producteur n°" + prod.numId);
-					//prod.run();
 					prod.start();
 				}
 				else if (ComptC<nbC) {
 					ComptC++;
 					Consommateur cons = new Consommateur(buffer, Mavg, ComptC);
 					System.out.println("Création du consommateur n°" + cons.numId);
-					//cons.run();
 					cons.start();
 				}
 			}
@@ -43,14 +41,12 @@ public class TestProdCons {
 					ComptC++;
 					Consommateur cons = new Consommateur(buffer, Mavg, ComptC);
 					System.out.println("Création du consommateur n°" + cons.numId);
-					//cons.run();
 					cons.start();
 				}
 				else if (ComptP<nbP) {
 					ComptP++;
 					Producteur prod = new Producteur(new Message(), buffer, Mavg, ComptP);
 					System.out.println("Création du producteur n°" + prod.numId);
-					//prod.run();
 					prod.start();
 				}
 			}
