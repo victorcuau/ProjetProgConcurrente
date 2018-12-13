@@ -16,8 +16,8 @@ public class Consommateur extends Thread {
 
 	public void run(){
 		try {
-			for (int i = 0 ; i < (int)(Math.random()*Mavg*2) ; i++) {
-				sleep(ConsTime);
+			while(true) {
+				sleep((int)Math.random()*ConsTime*2);
 				buffer.get();
 			}
 			

@@ -20,7 +20,7 @@ public class Producteur extends Thread {
 		try {
 			for (int i = 0 ; i < (int)(Math.random()*Mavg*2) ; i++) {
 				ptitmot = new Message();
-				sleep(ProdTime);
+				sleep((int)Math.random()*ProdTime*2);
 				buffer.put(ptitmot);
 			}
 		} catch (InterruptedException e) {
