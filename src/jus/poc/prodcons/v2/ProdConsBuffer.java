@@ -1,4 +1,6 @@
-package jus.poc.prodcons.v1;
+package jus.poc.prodcons.v2;
+
+import java.util.concurrent.Semaphore;
 
 public class ProdConsBuffer implements IProdConsBuffer {
 
@@ -9,24 +11,31 @@ public class ProdConsBuffer implements IProdConsBuffer {
 	Message buffer[];
 	int nbMsgEffectivementConsommes = 0;
 	
+	Semaphore mutexProd = new Semaphore(1);
+	Semaphore mutexCons = new Semaphore(1);
+	Semaphore case_occ = new Semaphore(0);
+	Semaphore case_libre;
+	
 	ProdConsBuffer(int BufSz){
 		buffer = new Message[BufSz];
+		case_libre = new Semaphore(buffer.length);
 	}
 	
 		/**
 		* put m in the prodcons buffer
 		**/
 		public synchronized void put(Message m) throws InterruptedException {
-			while(!(nbElem < buffer.length)) {
-				wait();
-			}
+			case_libre.acquire();
+			mutexProd.acquire();
+			
 			buffer[queue] = m;
 			System.out.println("PRODUCTION (n°" + buffer[queue].idParent + ") : " + buffer[queue].content);
 			queue = (queue+1)%buffer.length;
 			nbElem++;
 			System.out.println("-> Il y a " + nmsg() + " message(s) dans le buffer");
-			notifyAll(); 	// All car si le buffer est plein, on a absolument besoin
-										// de réveiller un consommateur pour ne pas être bloqué
+			
+			mutexProd.release();
+			case_occ.release();
 		}
 		
 		
@@ -34,16 +43,18 @@ public class ProdConsBuffer implements IProdConsBuffer {
 		* retrieve a message from the prodcons buffer, following a FIFO order
 		**/
 		public synchronized Message get() throws InterruptedException{
-			while(!(nbElem>0)) {
-				wait();
-			}
+			case_occ.acquire();
+			mutexCons.acquire();
+			
 			System.out.println("CONSOMMATION : " + buffer[tete].content);
 			tete = (tete+1)%buffer.length;
 			nbElem--;
 			nbMsgEffectivementConsommes++;
 			System.out.println("-> Il y a " + nmsg() + " message(s) dans le buffer");
-			notifyAll(); 	// All car si le buffer est vide, on a absolument besoin
-										// de réveiller un producteur pour ne pas être bloqué
+			
+			mutexCons.release();
+			case_libre.release();
+			
 			return buffer[tete]; // Pas de sens ici mais besoin d'un return
 		}
 		
