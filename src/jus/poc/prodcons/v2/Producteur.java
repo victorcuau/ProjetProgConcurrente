@@ -4,15 +4,13 @@ public class Producteur extends Thread {
 	
 	Message ptitmot;
 	ProdConsBuffer buffer;
-	int Mavg;
-	int numId;
-	long ProdTime;
-	int nmes;
+	int numId; // Identifiant du producteur
+	long ProdTime; // Temps moyen de production d'un message
+	int nmes; // Nombre de messages à produire
 	
-	Producteur(Message m, ProdConsBuffer buffer, int Mavg, int numId, int ProdTime, int nmes){
+	Producteur(Message m, ProdConsBuffer buffer, int numId, int ProdTime, int nmes){
 		this.ptitmot = m;
 		this.buffer = buffer;
-		this.Mavg = Mavg;
 		this.numId = numId;
 		this.ProdTime = ProdTime;
 		this.nmes = nmes;
@@ -22,7 +20,7 @@ public class Producteur extends Thread {
 	public void run(){
 		try {
 			for (int i = 0 ; i < nmes ; i++) {
-				sleep((int)Math.random()*ProdTime*2);
+				sleep((int)Math.random()*ProdTime*2); // Temps de production du message
 				buffer.put(ptitmot);
 			}
 		} catch (InterruptedException e) {

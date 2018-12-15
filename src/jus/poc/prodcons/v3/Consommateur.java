@@ -1,4 +1,4 @@
-package jus.poc.prodcons.v2;
+package jus.poc.prodcons.v3;
 
 public class Consommateur extends Thread {
 	
@@ -16,8 +16,8 @@ public class Consommateur extends Thread {
 	public void run(){
 		try {
 			while(true) {
-				sleep((int)Math.random()*ConsTime*2); // Temps de consommation du message
 				buffer.get();
+				sleep((int)Math.random()*ConsTime*2); // Temps de consommation du message
 			}
 			
 		} catch (InterruptedException e) {

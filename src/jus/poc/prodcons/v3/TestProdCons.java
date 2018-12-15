@@ -1,4 +1,4 @@
-package jus.poc.prodcons.v1;
+package jus.poc.prodcons.v3;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class TestProdCons {
 		System.out.println("ProdTime : " + ProdTime);
 		System.out.println("ConsTime : " + ConsTime);
 		System.out.println("Mavg : " + Mavg);
-		System.out.println("----------- LANCEMENT DU PROGRAMME v1 : WAIT/NOTIFY -----------");
+		System.out.println("----------- LANCEMENT DU PROGRAMME v3 : WAIT/NOTIFY + N EXEMPLAIRES -----------");
 		
 		ProdConsBuffer buffer = new ProdConsBuffer(BufSz); // Création du buffer
 		int nbTotalMsgProd = 0; // Nb total de messages à produire
@@ -38,7 +38,7 @@ public class TestProdCons {
 			if (tirage < 0.5F) {
 				if (ComptP<nbP) {
 					ComptP++;
-					Producteur prod = new Producteur(new Message(), buffer, ComptP, ProdTime, (int)(Math.random()*Mavg*2));
+					Producteur prod = new Producteur(new Message(), buffer, ComptP, ProdTime, (int)(Math.random()*Mavg*2), nbC, nbP);
 					System.out.println("CREATION du producteur n°" + prod.numId);
 					nbTotalMsgProd += prod.nmes;
 					ListeProd.add(prod);
@@ -60,7 +60,7 @@ public class TestProdCons {
 				}
 				else if (ComptP<nbP) {
 					ComptP++;
-					Producteur prod = new Producteur(new Message(), buffer, ComptP, ProdTime, (int)(Math.random()*Mavg*2));
+					Producteur prod = new Producteur(new Message(), buffer, ComptP, ProdTime, (int)(Math.random()*Mavg*2), nbC, nbP);
 					System.out.println("CREATION du producteur n°" + prod.numId);
 					nbTotalMsgProd += prod.nmes;
 					ListeProd.add(prod);
@@ -90,6 +90,7 @@ public class TestProdCons {
 	
 	public static void main(String[] args) {
 		long debut = System.currentTimeMillis();
+		
 		TestProdCons test = new TestProdCons();
 		
 		try {
@@ -100,7 +101,7 @@ public class TestProdCons {
 			e.printStackTrace();
 		}
 		
-		System.out.print("Temps d'exécution v1 : ");
+		System.out.print("Temps d'exécution v3 : ");
 		System.out.print(System.currentTimeMillis()-debut);
 		System.out.println(" ms");
 	}

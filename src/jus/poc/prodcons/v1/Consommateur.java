@@ -3,22 +3,20 @@ package jus.poc.prodcons.v1;
 public class Consommateur extends Thread {
 	
 	ProdConsBuffer buffer;
-	int Mavg;
-	int numId;
-	int ConsTime;
+	int numId; // Identifiant du consommateur
+	int ConsTime; // Temps moyen de consommation d'un message
 	
-	Consommateur(ProdConsBuffer buffer, int Mavg, int numId, int ConsTime){
+	Consommateur(ProdConsBuffer buffer, int numId, int ConsTime){
 		this.buffer = buffer;
-		this.Mavg = Mavg;
 		this.numId = numId;
 		this.ConsTime = ConsTime;
-		this.setDaemon(true);
+		this.setDaemon(true); // Permet de s'assurer que les processus consommateurs s'arrêtent
 	}
 
 	public void run(){
 		try {
 			while(true) {
-				sleep((int)Math.random()*ConsTime*2);
+				sleep((int)Math.random()*ConsTime*2); // Temps de consommation du message
 				buffer.get();
 			}
 			
